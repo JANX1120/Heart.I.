@@ -1,4 +1,8 @@
 
+/* =========================
+   GLOBAL SETTINGS
+========================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -9,118 +13,618 @@ body {
     width: 100%;
     height: 100vh;
     overflow: hidden;
-    background: radial-gradient(
-        circle at bottom,
-        #171735,
-        #080817 65%,
-        #02020b
-    );
-    font-family: Arial, sans-serif;
+
+    background:
+        radial-gradient(
+            ellipse at bottom,
+            #24101b 0%,
+            #100810 55%,
+            #050306 100%
+        );
+
+    font-family: Georgia, serif;
+    cursor: crosshair;
+    position: relative;
 }
 
-#fireworks {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-}
-
-/* INTRO */
+/* =========================
+   INTRO SCREEN
+========================= */
 
 .intro {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
+
     transform: translate(-50%, -50%);
+
     text-align: center;
     width: 90%;
-    z-index: 5;
-    transition: 1s;
+    z-index: 2;
+
+    pointer-events: none;
+
+    animation: fadeIn 2s ease;
 }
 
 .intro h1 {
-    color: white;
-    font-size: 28px;
-    margin-bottom: 30px;
-    text-shadow: 0 0 20px #ff416c;
-}
+    color: #ffe4eb;
+    font-size: clamp(30px, 6vw, 55px);
+    font-weight: normal;
+    letter-spacing: 3px;
 
-.intro button {
-    padding: 17px 45px;
-    border: 2px solid #ff416c;
-    border-radius: 50px;
-    background: transparent;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    cursor: pointer;
-    box-shadow: 0 0 20px #ff416c;
-    animation: pulse 1.5s infinite;
-}
-
-.intro button:hover {
-    background: #ff416c;
-    transform: scale(1.1);
+    text-shadow: 0 0 20px #ff477e;
 }
 
 .intro p {
-    color: #ffc5d5;
-    margin-top: 25px;
-    letter-spacing: 2px;
-    font-size: 14px;
+    color: #e8bdca;
+    font-size: 16px;
+    margin-top: 15px;
+    letter-spacing: 1px;
 }
 
-@keyframes pulse {
-    50% {
-        box-shadow: 0 0 40px #ff1744;
-    }
+.intro span {
+    display: block;
+    font-size: 35px;
+    margin-top: 20px;
+
+    animation: heartbeat 2s infinite;
 }
 
-/* HIDE INTRO */
+/* =========================
+   ROSE CONTAINER
+========================= */
 
-.intro.hide {
-    opacity: 0;
-    visibility: hidden;
-    transform: translate(-50%, -50%) scale(0.5);
-}
+#rose-container {
+    position: fixed;
+    inset: 0;
 
-/* HEART MESSAGE */
-
-.message {
-    position: absolute;
-    top: 76%;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    width: 90%;
-    opacity: 0;
-    transition: opacity 2s;
+    overflow: hidden;
     pointer-events: none;
 }
 
-.message.show {
-    opacity: 1;
+/* =========================
+   ROSE STRUCTURE
+========================= */
+
+.rose {
+    position: absolute;
+
+    width: 120px;
+    height: 200px;
+
+    transform:
+        translate(-50%, -100%)
+        scale(var(--size))
+        rotate(var(--rotation));
+
+    transform-origin: bottom center;
+
+    animation: roseAppear 0.5s ease forwards;
 }
 
-.message h1 {
-    color: white;
-    font-size: 32px;
-    text-shadow: 0 0 20px #ff1744;
+/* =========================
+   STEM
+========================= */
+
+.stem {
+    position: absolute;
+
+    width: 5px;
+    height: 130px;
+
+    bottom: 0;
+    left: 50%;
+
+    background: linear-gradient(
+        to right,
+        #16451d,
+        #4e9d4d,
+        #17401e
+    );
+
+    border-radius: 10px;
+
+    transform-origin: bottom;
+    transform: scaleY(0);
+
+    animation: growStem 1.5s ease-out forwards;
 }
 
-.message p {
-    color: #ffc5d5;
-    margin-top: 12px;
+/* =========================
+   LEAVES
+========================= */
+
+.leaf {
+    position: absolute;
+
+    width: 35px;
+    height: 18px;
+
+    background: linear-gradient(
+        135deg,
+        #7acb67,
+        #174b22
+    );
+
+    border-radius: 100% 0 100% 0;
+
+    opacity: 0;
+    transform-origin: bottom;
+}
+
+.leaf-left {
+    left: 50%;
+    bottom: 55px;
+
+    transform: rotate(-35deg) scale(0);
+
+    animation: growLeaf 0.8s ease-out 0.8s forwards;
+}
+
+.leaf-right {
+    left: 22%;
+    bottom: 85px;
+
+    transform: rotate(35deg) scale(0) scaleX(-1);
+
+    animation: growLeafRight 0.8s ease-out 1s forwards;
+}
+
+/* =========================
+   FLOWER HEAD
+========================= */
+
+.flower {
+    position: absolute;
+
+    width: 75px;
+    height: 75px;
+
+    left: 50%;
+    top: 0;
+
+    transform: translateX(-50%) scale(0);
+    transform-origin: center bottom;
+
+    animation:
+        bloom 1.2s cubic-bezier(.2, 1.5, .5, 1)
+        1.3s forwards;
+}
+
+/* =========================
+   ROSE PETALS
+========================= */
+
+.petal {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 34px;
+    height: 46px;
+
+    margin-left: -17px;
+    margin-top: -23px;
+
+    border-radius: 65% 35% 55% 45%;
+
+    transform-origin: center center;
+
+    /* RANDOM ROSE COLOR */
+
+    background: linear-gradient(
+        145deg,
+        var(--rose-light),
+        var(--rose-main) 50%,
+        var(--rose-dark)
+    );
+
+    box-shadow:
+        inset 3px 2px 5px rgba(255,255,255,.25),
+        inset -4px -5px 8px rgba(0,0,0,.25);
+
+    opacity: 0;
+
+    animation:
+        petalOpen .8s cubic-bezier(.2, 1.4, .4, 1)
+        calc(1.6s + var(--delay)) forwards;
+}
+
+/* OUTER PETALS */
+
+.petal.outer {
+    width: 39px;
+    height: 52px;
+
+    margin-left: -19.5px;
+    margin-top: -26px;
+
+    z-index: 1;
+
+    filter: brightness(.88);
+}
+
+/* MIDDLE PETALS */
+
+.petal.middle {
+    width: 31px;
+    height: 43px;
+
+    margin-left: -15.5px;
+    margin-top: -21.5px;
+
+    z-index: 2;
+
+    filter: brightness(1.05);
+}
+
+/* INNER PETALS */
+
+.petal.inner {
+    width: 23px;
+    height: 34px;
+
+    margin-left: -11.5px;
+    margin-top: -17px;
+
+    z-index: 3;
+
+    filter: brightness(1.15);
+}
+
+/* =========================
+   ROSE CENTER
+========================= */
+
+.rose-center {
+    position: absolute;
+
+    width: 22px;
+    height: 22px;
+
+    left: 50%;
+    top: 50%;
+
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle at 35% 30%,
+        var(--rose-light),
+        var(--rose-main) 60%,
+        var(--rose-dark)
+    );
+
+    box-shadow:
+        inset 2px 2px 5px rgba(255,255,255,.4),
+        0 0 8px var(--rose-main);
+
+    transform: translate(-50%, -50%) scale(0);
+
+    animation:
+        centerBloom .7s ease 2.8s forwards;
+
+    z-index: 5;
+}
+
+/* =========================
+   SPARKLES
+========================= */
+
+.sparkle {
+    position: absolute;
+
+    width: 6px;
+    height: 6px;
+
+    background: #ffd9e5;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 12px #ff477e,
+        0 0 20px #ffb6c9;
+
+    pointer-events: none;
+
+    animation: sparkleFly 1.2s ease-out forwards;
+}
+
+/* =========================
+   ROSE COUNTER
+========================= */
+
+#rose-counter {
+    position: fixed;
+
+    top: 25px;
+    right: 25px;
+
+    color: #ffd6e0;
+
+    font-size: 16px;
     letter-spacing: 2px;
+
+    z-index: 10;
+
+    text-shadow: 0 0 10px #ff477e;
 }
 
-@media (max-width: 600px) {
-    .intro h1 {
-        font-size: 23px;
+/* =========================
+   SURPRISE OVERLAY
+========================= */
+
+#surprise-message {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(5, 0, 8, 0.92);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    z-index: 20;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 2s ease,
+        visibility 2s;
+}
+
+#surprise-message.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.surprise-content {
+    padding: 30px;
+    max-width: 500px;
+
+    animation: surpriseAppear 2s ease;
+}
+
+.heart {
+    font-size: 65px;
+
+    animation: heartbeat 1.5s infinite;
+}
+
+.surprise-content h1 {
+    color: #ffb6c9;
+
+    font-size: 38px;
+    margin: 20px 0;
+
+    text-shadow: 0 0 20px #ff174f;
+}
+
+.surprise-content p {
+    color: white;
+
+    font-size: 20px;
+    line-height: 1.7;
+
+    margin-bottom: 20px;
+}
+
+.surprise-content span {
+    color: #ff9bb5;
+
+    font-size: 17px;
+    font-style: italic;
+}
+
+.surprise-content button {
+    display: block;
+
+    margin: 30px auto 0;
+    padding: 13px 25px;
+
+    background: #a60032;
+
+    border: 1px solid #ff8ca9;
+    color: white;
+
+    border-radius: 30px;
+
+    cursor: pointer;
+
+    font-family: Georgia, serif;
+
+    transition: 0.3s;
+}
+
+.surprise-content button:hover {
+    background: #ed1745;
+
+    box-shadow: 0 0 20px #ff477e;
+
+    transform: scale(1.05);
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+/* INTRO */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -40%);
     }
 
-    .message h1 {
-        font-size: 25px;
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* HEART */
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+/* ROSE APPEAR */
+
+@keyframes roseAppear {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* STEM GROW */
+
+@keyframes growStem {
+    to {
+        transform: scaleY(1);
+    }
+}
+
+/* LEAF GROW */
+
+@keyframes growLeaf {
+    to {
+        opacity: 1;
+        transform: rotate(-35deg) scale(1);
+    }
+}
+
+@keyframes growLeafRight {
+    to {
+        opacity: 1;
+        transform: rotate(35deg) scale(1) scaleX(-1);
+    }
+}
+
+/* FLOWER BLOOM */
+
+@keyframes bloom {
+    0% {
+        transform: translateX(-50%) scale(0);
+    }
+
+    70% {
+        transform: translateX(-50%) scale(1.2);
+    }
+
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+/* PETALS OPEN */
+
+@keyframes petalOpen {
+    0% {
+        opacity: 0;
+
+        transform:
+            rotate(var(--angle))
+            translateY(calc(-1 * var(--distance)))
+            scale(.1);
+    }
+
+    70% {
+        opacity: 1;
+
+        transform:
+            rotate(var(--angle))
+            translateY(calc(-1 * var(--distance)))
+            scale(1.15);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            rotate(var(--angle))
+            translateY(calc(-1 * var(--distance)))
+            scale(1);
+    }
+}
+
+/* CENTER BLOOM */
+
+@keyframes centerBloom {
+    to {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* SPARKLES FLY */
+
+@keyframes sparkleFly {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(var(--spark-x), var(--spark-y))
+            scale(0);
+    }
+}
+
+/* SURPRISE APPEAR */
+
+@keyframes surpriseAppear {
+    from {
+        transform: translateY(30px) scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* =========================
+   MOBILE RESPONSIVENESS
+========================= */
+
+@media (max-width: 600px) {
+
+    .intro h1 {
+        font-size: 32px;
+    }
+
+    .intro p {
+        font-size: 13px;
+    }
+
+    #rose-counter {
+        top: 15px;
+        right: 15px;
+        font-size: 13px;
+    }
+
+    .surprise-content h1 {
+        font-size: 30px;
+    }
+
+    .surprise-content p {
+        font-size: 17px;
     }
 }
