@@ -1,32 +1,36 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fireworks Heart ❤️</title>
+    <title>A Garden of Roses 🌹</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <canvas id="fireworks"></canvas>
-
-    <div class="intro" id="intro">
-        <h1>Something Special For You</h1>
-        <button id="pressButton">PRESS ME ❤️</button>
-        <p>A little surprise is waiting...</p>
+    <div class="intro">
+        <h1>A Garden of Roses</h1>
+        <p>Touch anywhere and watch something beautiful grow...</p>
+        <span>🌹</span>
     </div>
 
-    <div class="message" id="message">
-        <h1>You're Special 🖕 </h1>
-        <p>You make my world beautiful.</p>
-    </div>
+    <div id="rose-container"></div>
 
     
-<audio id="launchSound" src="launch.mp3" preload="auto"></audio>
+<div id="surprise-message">
+    <div class="surprise-content">
+        <div class="heart">❤️</div>
+        <h1>10 Roses for You</h1>
+        <p>
+            Every rose I grow is a little reminder of you.
+        </p>
+        <span>You're something beautiful. 🌹</span>
+        <button onclick="closeSurprise()">Keep Growing Roses</button>
+    </div>
+</div>
 
-<audio id="explosionSound" src="explosion.mp3" preload="auto"></audio>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
